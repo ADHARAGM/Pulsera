@@ -1,22 +1,41 @@
 package com.ces.pulsera.herramientas
 
-import android.app.*
+import android.app.Application
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
-import org.altbeacon.beacon.*
 import com.ces.pulsera.R
 import com.ces.pulsera.vista.MainActivity
+import org.altbeacon.beacon.Beacon
+import org.altbeacon.beacon.BeaconManager
+import org.altbeacon.beacon.BeaconParser
+import org.altbeacon.beacon.Identifier
+import org.altbeacon.beacon.MonitorNotifier
+import org.altbeacon.beacon.Region
 
 class BeaconReferenceApplication: Application() {
     // the region definition is a wildcard that matches all beacons regardless of identifiers.
     // if you only want to detect beacons with a specific UUID, change the id1 paremeter to
-    var uid= Identifier.parse("FDA50693-A4E2-4FB1-AFCF-C6EB07647825")
-    var region = Region("all-beacons", uid, null, null)
+    private var instance: BeaconReferenceApplication? = null
 
+
+
+        fun getInstance(): BeaconReferenceApplication? {
+            return instance
+        }
+
+        fun getContext(): Context? {
+            return instance
+        }
     override fun onCreate() {
+        instance = this
         super.onCreate()
 
         val beaconManager = BeaconManager.getInstanceForApplication(this)
@@ -32,8 +51,6 @@ class BeaconReferenceApplication: Application() {
         //beaconManager.getBeaconParsers().clear();
         //beaconManager.getBeaconParsers().add(new BeaconParser().
         //        setBeaconLayout("m:0-1=4c00,i:2-24v,p:24-24"));
-
-
         // By default the AndroidBeaconLibrary will only find AltBeacons.  If you wish to make it
         // find a different type of beacon like Eddystone or iBeacon, you must specify the byte layout
         // for that beacon's advertisement with a line like below.
@@ -77,6 +94,8 @@ class BeaconReferenceApplication: Application() {
         // If you want to continuously range beacons in the background more often than every 15 mintues,
         // you can use the library's built-in foreground service to unlock this behavior on Android
         // 8+.   the method below shows how you set that up.
+        var uid= Identifier.parse("FDA50693-A4E2-4FB1-AFCF-C6EB07647825")
+        var region = Region("all-beacons", uid, null, null)
         try {
             setupForegroundService()
         }
@@ -131,10 +150,11 @@ class BeaconReferenceApplication: Application() {
 
     val centralMonitoringObserver = Observer<Int> { state ->
         if (state == MonitorNotifier.OUTSIDE) {
-            Log.d(TAG, "outside beacon region: "+region)
+            Log.d(TAG, "outside beacon region: ")//+region)
         }
         else {
-            Log.d(TAG, "inside beacon region: "+region)
+            Log.d(TAG, "inside beacon region: ")//
+            // +region)
             sendNotification()
         }
     }

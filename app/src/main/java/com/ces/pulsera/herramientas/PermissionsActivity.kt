@@ -77,9 +77,11 @@ class PermissionsHelper(val context: Context) {
     }
     fun beaconScanPermissionGroupsNeeded(backgroundAccessRequested: Boolean = false): List<Array<String>> {
         val permissions = ArrayList<Array<String>>()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // As of version M (6) we need FINE_LOCATION (or COARSE_LOCATION, but we ask for FINE)
             permissions.add(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION))
+            permissions.add(arrayOf(Manifest.permission.CAMERA))
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // As of version Q (10) we need FINE_LOCATION and BACKGROUND_LOCATION
@@ -93,6 +95,7 @@ class PermissionsHelper(val context: Context) {
             // but it is required if you want to access some info from the scans like the device name
             // and the aditional cost of requsting this access is minimal, so we just request it
             permissions.add(arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT))
+
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             // As of version T (13) we POST_NOTIFICATIONS permissions if using a foreground service
@@ -192,6 +195,8 @@ open class BeaconScanPermissionsActivity: PermissionsActivity()  {
         bundle.putString(Manifest.permission.ACCESS_BACKGROUND_LOCATION, "Background ubicación")
         bundle.putString(Manifest.permission.BLUETOOTH_SCAN, "Bluetooth")
         bundle.putString(Manifest.permission.POST_NOTIFICATIONS, "Notificaciones")
+        bundle.putString(Manifest.permission.CAMERA, "Camara")
+        bundle.putString(Manifest.permission.INTERNET, "conexión Internet")
         return bundle
     }
 
