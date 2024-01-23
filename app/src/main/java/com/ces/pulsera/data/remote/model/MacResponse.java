@@ -1,18 +1,18 @@
 package com.ces.pulsera.data.remote.model;
 
-import com.ces.pulsera.data.local.ResponseVehiculo;
+import com.ces.pulsera.data.local.ResponseMac;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class VehiculoResponse {
+public class MacResponse {
     @SerializedName("mensaje")
     @Expose
     private String mensaje;
     @SerializedName("objeto")
     @Expose
-    private List<ResponseVehiculo> objeto;
+    private List<ResponseMac> objeto;
 
     public String getMensaje() {
         return mensaje;
@@ -22,11 +22,11 @@ public class VehiculoResponse {
         this.mensaje = mensaje;
     }
 
-    public List<ResponseVehiculo> getObjeto() {
+    public List<ResponseMac> getObjeto() {
         return objeto;
     }
 
-    public void setObjeto(List<ResponseVehiculo> objeto) {
+    public void setObjeto(List<ResponseMac> objeto) {
         this.objeto = objeto;
     }
     /*

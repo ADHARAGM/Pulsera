@@ -23,17 +23,9 @@ import org.altbeacon.beacon.Region
 class BeaconReferenceApplication: Application() {
     // the region definition is a wildcard that matches all beacons regardless of identifiers.
     // if you only want to detect beacons with a specific UUID, change the id1 paremeter to
-    private var instance: BeaconReferenceApplication? = null
 
 
 
-        fun getInstance(): BeaconReferenceApplication? {
-            return instance
-        }
-
-        fun getContext(): Context? {
-            return instance
-        }
     override fun onCreate() {
         instance = this
         super.onCreate()
@@ -196,6 +188,13 @@ class BeaconReferenceApplication: Application() {
 
     companion object {
         val TAG = "BeaconReference"
+        private lateinit var instance : BeaconReferenceApplication
+        fun getContext(): BeaconReferenceApplication{
+            return instance;
+        }
+        fun getInstance(): BeaconReferenceApplication{
+            return instance;
+        }
     }
 
 }

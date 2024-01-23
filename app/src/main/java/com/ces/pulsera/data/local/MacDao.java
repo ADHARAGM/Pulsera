@@ -1,15 +1,17 @@
 package com.ces.pulsera.data.local;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
 
-public interface VehiculoDao {
-    @Query("Select * from vehiculo")
-    LiveData<List<ResponseVehiculo>> loadVehiculos();
+@Dao
+public interface MacDao {
+    @Query("Select * from mac")
+    LiveData<List<ResponseMac>> loadMac();
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void saveVehiculo(List<ResponseVehiculo>responseVehiculo);
+    void saveMac(List<ResponseMac>responseMac);
 }

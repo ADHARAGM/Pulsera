@@ -5,9 +5,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 //@Generated("jsonschema2pojo")
-public class RequestVehiculo {
-
-    public RequestVehiculo(int tipo, String placa){
+public class RequestMac {
+/*
+    public RequestMac(int tipo, String placa){
         super();
         this.tipo=tipo;
         this.placa=placa;
@@ -33,6 +33,6 @@ public class RequestVehiculo {
 
     public void setPlaca(String placa) {
         this.placa = placa;
-    }
+    }*/
 
 }
