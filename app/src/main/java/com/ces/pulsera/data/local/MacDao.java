@@ -6,6 +6,8 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.ces.pulsera.data.remote.model.ResponseMac;
+
 import java.util.List;
 
 @Dao

@@ -6,10 +6,6 @@ import androidx.room.Room;
 
 import com.ces.pulsera.data.local.MacDao;
 import com.ces.pulsera.data.local.MacPersonaDatabase;
-import com.ces.pulsera.data.local.ResponseMac;
-import com.ces.pulsera.data.network.NetworkBoundResource;
-import com.ces.pulsera.data.network.Resource;
-import com.ces.pulsera.data.remote.model.MacResponse;
 import com.ces.pulsera.herramientas.BeaconReferenceApplication;
 
 import java.util.List;
@@ -40,30 +36,6 @@ public class MacRepository {
         getMacService= retrofit.create(GetMacService.class);
     }
 
-   public LiveData<Resource<List<ResponseMac>>> getMacpersona(String mac){
-        //Tipo que devuelve ROOM(BD LOCAL), tipo que devuelve la API RETROFIT
-        return new NetworkBoundResource<List<ResponseMac>, MacResponse>(){
-            @Override
-            public void saveCallResult(@NonNull MacResponse item) {
-                //alamecena la respuesta del servidor a la base de datos local
-                macDao.saveMac(item.getObjeto());
-            }
-            @NonNull
-            @Override
-            public LiveData<List<ResponseMac>> loadFromDb() {
-                //metodo que duevulve los datos que dispongamos en room la base de datos local
-
-                return macDao.loadMac();
-            }
-
-            @NonNull
-            @Override
-            public Call<MacResponse> createCall() {
-                //obtiene los datos de la api de retrofit
-                return getMacService.getMacService( mac);
-            }
-        }.getAsLiveData();
-    }
   public static MacRepository getInstance(){
         if(instance==null){
             instance= new MacRepository();

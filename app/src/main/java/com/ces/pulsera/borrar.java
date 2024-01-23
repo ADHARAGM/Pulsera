@@ -1,11 +1,9 @@
 package com.ces.pulsera;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.ces.pulsera.data.local.ResponseMac;
+import com.ces.pulsera.data.remote.model.ResponseMac;
 import com.ces.pulsera.data.network.Resource;
-import com.ces.pulsera.data.remote.services.MacRepository;
 
 import java.util.List;
 

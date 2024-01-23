@@ -1,6 +1,6 @@
-package com.ces.pulsera.data.remote.model;
+package com.ces.pulsera.data.local;
 
-import com.ces.pulsera.data.local.ResponseMac;
+import com.ces.pulsera.data.remote.model.ResponseMac;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

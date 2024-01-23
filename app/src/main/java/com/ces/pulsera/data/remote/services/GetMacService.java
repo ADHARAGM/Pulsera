@@ -1,6 +1,6 @@
 package com.ces.pulsera.data.remote.services;
 
-import com.ces.pulsera.data.remote.model.MacResponse;
+import com.ces.pulsera.data.local.MacResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

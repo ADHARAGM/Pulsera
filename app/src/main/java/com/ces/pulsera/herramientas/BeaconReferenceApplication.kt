@@ -74,6 +74,7 @@ class BeaconReferenceApplication: Application() {
 
         setupBeaconScanning()
     }
+    // CAMBIAR AQUI EL UID POR LA MAC
     fun setupBeaconScanning() {
         val beaconManager = BeaconManager.getInstanceForApplication(this)
         beaconManager.setBackgroundScanPeriod(60000);

@@ -1,5 +1,5 @@
 
-package com.ces.pulsera.data.local;
+package com.ces.pulsera.data.remote.model;
 
 
 import androidx.annotation.NonNull;
@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-@Entity(tableName ="mac" )
+@Entity(tableName ="macInformation" )
 //@Generated("jsonschema2pojo")
 public class ResponseMac {
 

@@ -1,76 +1,50 @@
 
 package com.ces.pulsera.viewmodel
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ces.pulsera.data.local.ResponseMac
-import com.ces.pulsera.data.network.Resource
-import com.ces.pulsera.data.remote.model.MacResponse
-import com.ces.pulsera.data.remote.services.GetMacService
-import com.ces.pulsera.data.remote.services.MacRepository
+import com.ces.pulsera.data.remote.model.ResponseMac
+import com.ces.pulsera.data.local.MacResponse
+import com.ces.pulsera.data.remote.services.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SincronizarPulseraViewModel : ViewModel(){
+    private  var listaMacLiveData=MutableLiveData<ResponseMac>()
+    private  var listadoResultado=MutableLiveData<MacResponse>()
+    var msj:String =""
+    fun getListadoMacs(mac:String){
+        RetrofitInstance.api.getMacService(mac).enqueue(object : Callback<MacResponse>{
+            override fun onResponse(call: Call<MacResponse>, response: Response<MacResponse>) {
+                if(response.body() != null) {
+                    val resultado: MacResponse = response.body()!!
+                    val listaMacs: ResponseMac = response.body()!!.objeto[0]
+                    listadoResultado.value=resultado
+                    listaMacLiveData.value=listaMacs
 
-  private var sincronizarPulseraModel: LiveData<Resource<List<ResponseMac?>?>?>? = null
-    /*private var getVehiculoClient: GetVehiculoClient? = null*/
-    lateinit var macRepository: MacRepository
-
-
-    fun SincronizarPulseraViewModel(mac:String) {
-      macRepository = MacRepository.getInstance()
-        //macRepository = MacRepository()
-        sincronizarPulseraModel = macRepository!!.getMacpersona(mac)
-    }
-
-
-    fun getMacpersonaVm(): LiveData<Resource<List<ResponseMac?>?>?>? {
-        return sincronizarPulseraModel
-    }
-
- /*  val sincronizarPulseraModel= MutableLiveData<MacResponse>()
-
-    lateinit var macRepository: MacRepository
-    lateinit var getMacService: GetMacService
-    var msj:String=""
-    fun getIdPersonaMac (mac: String):String {
-        macRepository = MacRepository.getInstance()
-        getMacService = macRepository.getMacService()
-        val call = getMacService.getMacService( mac)
-
-        call.enqueue(object : Callback<MacResponse?> {
-            override fun onResponse(
-                call: Call<MacResponse?>,
-                response: Response<MacResponse?>
-            ) {
-                if (response.isSuccessful){
-                    //val obj= response.body()?.objeto?.get(0);
-                    if (response.body()!=null) {
-                        //val random : MacResponse= response.body()!!
-                        //sincronizarPulseraModel.value=random
-                       sincronizarPulseraModel.postValue(response.body())
-
-                        msj= response.body()?.mensaje!!
-
-                    }
                 }else{
-
+                    msj="ERROR DE CONEXIÓN"
                 }
-
+            }
+            override fun onFailure(call: Call<MacResponse>, t: Throwable) {
+                msj="ERROR DE CONEXIÓN"+t.message.toString()
+                Log.d("Error",t.message.toString())
             }
 
-            override fun onFailure(call: Call<MacResponse?>, t: Throwable) {
 
-            }
         })
-        return msj
     }
+fun observarLiveData():LiveData<ResponseMac>{
+    return  listaMacLiveData
+}
+fun observarResultado():LiveData<MacResponse>{
+    return  listadoResultado
+}
+fun mensaje():String{
+    return msj;
+}
 
-    fun getMacpersonaVm(): MutableLiveData<MacResponse> {
-        return sincronizarPulseraModel
-    }
-*/
 
 }
