@@ -1,10 +1,10 @@
-package com.ces.pulsera.data.remote.services
+package com.ces.pulsera.data.services
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    val api:GetMacService by lazy {
+    val api: GetMacService by lazy {
         Retrofit.Builder()
             .baseUrl("https://servicios.cesmorelos.gob.mx/Pulseras/")
             .addConverterFactory(GsonConverterFactory.create())

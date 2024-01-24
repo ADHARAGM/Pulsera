@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ces.pulsera.data.remote.model.ResponseMac
-import com.ces.pulsera.data.local.MacResponse
-import com.ces.pulsera.data.remote.services.RetrofitInstance
+import com.ces.pulsera.data.pojo.ResponseMac
+import com.ces.pulsera.data.pojo.MacResponse
+import com.ces.pulsera.data.services.RetrofitInstance
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

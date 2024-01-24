@@ -1,5 +1,5 @@
 
-package com.ces.pulsera.data.remote.model;
+package com.ces.pulsera.data.pojo;
 
 
 import androidx.annotation.NonNull;

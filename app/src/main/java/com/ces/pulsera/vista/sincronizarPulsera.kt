@@ -6,8 +6,8 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.ces.pulsera.data.remote.model.ResponseMac
-import com.ces.pulsera.data.local.MacResponse
+import com.ces.pulsera.data.pojo.ResponseMac
+import com.ces.pulsera.data.pojo.MacResponse
 import com.ces.pulsera.databinding.ActivitySincronizarPulseraBinding
 import com.ces.pulsera.herramientas.toast
 import com.ces.pulsera.viewmodel.SincronizarPulseraViewModel

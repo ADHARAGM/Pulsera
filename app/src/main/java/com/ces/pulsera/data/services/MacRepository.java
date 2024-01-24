@@ -1,16 +1,9 @@
-package com.ces.pulsera.data.remote.services;
+package com.ces.pulsera.data.services;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
-import com.ces.pulsera.data.local.MacDao;
-import com.ces.pulsera.data.local.MacPersonaDatabase;
 import com.ces.pulsera.herramientas.BeaconReferenceApplication;
 
-import java.util.List;
-
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
