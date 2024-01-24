@@ -7,11 +7,12 @@ import com.ces.pulsera.data.pojo.ResponseMac
 
 @Dao
 interface ListMacDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMac(mac:ResponseMac)
 
    @Delete
-   suspend fun deleteMac(mac:ResponseMac)
+    fun deleteMac(vararg  mac:ResponseMac)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMac(vararg  mac:ResponseMac)
 
    @Query("SELECT * FROM macInformation")
    fun getMac():LiveData<List<ResponseMac>>

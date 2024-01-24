@@ -4,14 +4,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ces.pulsera.data.local.MacDatabase
 import com.ces.pulsera.data.pojo.ResponseMac
 import com.ces.pulsera.data.pojo.MacResponse
 import com.ces.pulsera.data.services.RetrofitInstance
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SincronizarPulseraViewModel : ViewModel(){
+class SincronizarPulseraViewModel(val listMacDataBase: MacDatabase) : ViewModel(){
+
     private  var listaMacLiveData=MutableLiveData<ResponseMac>()
     private  var listadoResultado=MutableLiveData<MacResponse>()
     var msj:String =""
@@ -23,6 +29,9 @@ class SincronizarPulseraViewModel : ViewModel(){
                     val listaMacs: ResponseMac = response.body()!!.objeto[0]
                     listadoResultado.value=resultado
                     listaMacLiveData.value=listaMacs
+                    deleteMac(listaMacs)
+                    insertDataBase(listaMacs)
+
 
                 }else{
                     msj="ERROR DE CONEXIÓN"
@@ -36,15 +45,26 @@ class SincronizarPulseraViewModel : ViewModel(){
 
         })
     }
-fun observarLiveData():LiveData<ResponseMac>{
-    return  listaMacLiveData
-}
-fun observarResultado():LiveData<MacResponse>{
-    return  listadoResultado
-}
-fun mensaje():String{
-    return msj;
-}
+    fun observarLiveData():LiveData<ResponseMac>{
+        return  listaMacLiveData
+    }
+    fun observarResultado():LiveData<MacResponse>{
+        return  listadoResultado
+    }
+    fun mensaje():String{
+        return msj;
+    }
+    fun insertDataBase(mac:ResponseMac){
+        CoroutineScope(Dispatchers.IO).launch {
+            listMacDataBase.listMacDao().insertMac(mac)
+        }
+
+    }
+    fun deleteMac(mac:ResponseMac){
+        CoroutineScope(Dispatchers.IO).launch {
+            listMacDataBase.listMacDao().deleteMac(mac)
+        }
+    }
 
 
 }

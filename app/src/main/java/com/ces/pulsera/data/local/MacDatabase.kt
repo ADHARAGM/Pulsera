@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ces.pulsera.data.pojo.ResponseMac
 
-@Database(entities = [ResponseMac::class], version = 1, exportSchema = false)
+@Database(entities = [ResponseMac::class], version = 1)
 abstract class MacDatabase: RoomDatabase() {
-    abstract  fun macDao(): ListMacDao
+    abstract  fun listMacDao(): ListMacDao
     companion object{
         @Volatile
         var INSTANCE:MacDatabase?=null

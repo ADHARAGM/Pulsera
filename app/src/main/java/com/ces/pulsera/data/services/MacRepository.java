@@ -11,7 +11,7 @@ public class MacRepository {
     private static MacRepository instance=null;
     private GetMacService getMacService;
     private Retrofit retrofit;
-    private final MacDao macDao;
+   /* private final MacDao macDao;
 
     public MacRepository() {
         MacPersonaDatabase macPersonaDatabase = Room.databaseBuilder(
@@ -38,5 +38,5 @@ public class MacRepository {
 
     public GetMacService getMacService(){
         return getMacService;
-    }
+    }*/
 }
