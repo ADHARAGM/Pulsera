@@ -7,10 +7,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!--  Below is only needed if you want to read the device name or establish a bluetooth connection -->
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -27,6 +29,18 @@
         android:hardwareAccelerated="true"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Pulsera">
+        <service
+            android:name=".herramientas.services.UbicacionService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <receiver android:name=".herramientas.BootBroadcast"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"

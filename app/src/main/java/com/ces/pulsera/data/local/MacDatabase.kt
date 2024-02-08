@@ -18,7 +18,7 @@ abstract class MacDatabase: RoomDatabase() {
                 INSTANCE= Room.databaseBuilder(
                     context,
                     MacDatabase::class.java,
-                    "personaMac.db"
+                    "personaMac"
                 ).fallbackToDestructiveMigration().build()
             }
             return INSTANCE as MacDatabase

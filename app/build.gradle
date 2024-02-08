@@ -37,6 +37,9 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.lifecycle:lifecycle-service:2.7.0'
+    implementation 'com.google.android.gms:play-services-location:21.1.0'
+
     //room
     def room_version = "2.5.0"
     implementation "androidx.room:room-runtime:$room_version"

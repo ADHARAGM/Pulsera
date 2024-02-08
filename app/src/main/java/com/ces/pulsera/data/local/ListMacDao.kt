@@ -8,8 +8,8 @@ import com.ces.pulsera.data.pojo.ResponseMac
 @Dao
 interface ListMacDao {
 
-   @Delete
-    fun deleteMac(vararg  mac:ResponseMac)
+   @Query("DELETE FROM macInformation")
+    fun deleteMac()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMac(vararg  mac:ResponseMac)
