@@ -30,7 +30,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Pulsera">
         <service
-            android:name=".herramientas.services.UbicacionService"
+            android:name=".herramientas.servicesLocation.UbicacionServiceH"
             android:enabled="true"
             android:exported="true" >
         </service>

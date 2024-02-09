@@ -15,7 +15,7 @@ import com.ces.pulsera.databinding.ActivityMainBinding
 import com.ces.pulsera.herramientas.BeaconReferenceApplication
 import com.ces.pulsera.herramientas.BeaconScanPermissionsActivity
 import com.ces.pulsera.herramientas.Location
-import com.ces.pulsera.herramientas.services.UbicacionService
+import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceH
 import com.ces.pulsera.viewmodel.MainActivityModelFactory
 import com.ces.pulsera.viewmodel.MainActivityViewModel
 import org.altbeacon.beacon.BeaconManager
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         mainActivityViewModel.consultaBase().observe(this, Observer { listMacs->
             if(!listMacs.isEmpty()){
                 beaconReferenceApplication = application as BeaconReferenceApplication
-                val intentpasos = Intent(this, UbicacionService::class.java)
+                val intentpasos = Intent(this, UbicacionServiceH::class.java)
                 this.startService( intentpasos );
             }
         })

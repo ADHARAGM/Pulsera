@@ -16,6 +16,8 @@ public interface GetMacService {
     Call<MacResponse> getMacService( @Path("mac") String mac);
     @POST("api/PostAlerta")
     Call<MacResponse> setMacService(@Body RequestGuardaAlerta requestGuardaAlerta );
+    @POST("api/requestLocation/{id_persona}")
+    Call<MacResponse> requestLocation(@Path("id_persona") String id_persona);
     /*@POST("/api/guardaAlerta")
     Call<ResponseVehiculo> getVehiculo(@Body RequestVehiculo requestVehiculo);
     @GET("movie/popular")
