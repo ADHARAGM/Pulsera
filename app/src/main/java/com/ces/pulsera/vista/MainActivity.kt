@@ -15,7 +15,10 @@ import com.ces.pulsera.databinding.ActivityMainBinding
 import com.ces.pulsera.herramientas.BeaconReferenceApplication
 import com.ces.pulsera.herramientas.BeaconScanPermissionsActivity
 import com.ces.pulsera.herramientas.Location
+import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceA
 import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceH
+import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceM
+import com.ces.pulsera.herramientas.toast
 import com.ces.pulsera.viewmodel.MainActivityModelFactory
 import com.ces.pulsera.viewmodel.MainActivityViewModel
 import org.altbeacon.beacon.BeaconManager
@@ -27,10 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var  binding: ActivityMainBinding
     private  lateinit var mainActivityViewModel: MainActivityViewModel
     private  var myBluetooth: BluetoothAdapter? = null
-    lateinit var mypairedDevices:Set<BluetoothDevice>
     val Request_Enable_Blutooth=1
-    var mServiceIntent: Intent? = null
-    private var mSensorService: Location? = null
 
     @SuppressLint("MissingPermission")
 
@@ -42,11 +42,15 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory= MainActivityModelFactory(macDatabase)
         mainActivityViewModel= ViewModelProvider(this,viewModelFactory)[MainActivityViewModel::class.java]
         mainActivityViewModel.consultaBase().observe(this, Observer { listMacs->
-            if(!listMacs.isEmpty()){
-                beaconReferenceApplication = application as BeaconReferenceApplication
-                val intentpasos = Intent(this, UbicacionServiceH::class.java)
-                this.startService( intentpasos );
-            }
+        if(!listMacs.isEmpty()){
+            beaconReferenceApplication = application as BeaconReferenceApplication
+            val intentpasos = Intent(this, UbicacionServiceH::class.java)
+            stopService(intentpasos);
+            this.startService( intentpasos );
+            val intentpasos2 = Intent(this, UbicacionServiceM::class.java)
+            stopService(intentpasos2)
+            this.startService( intentpasos2 );
+        }
         })
         myBluetooth= BluetoothAdapter.getDefaultAdapter()
         if (!myBluetooth!!.isEnabled)
@@ -67,13 +71,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         Log.d(TAG, "onResume")
         super.onResume()
-        mainActivityViewModel.consultaBase().observe(this, Observer { listMacs->
-            if(!listMacs.isEmpty()){
-                funcionOnresume()
-            }
-        })
-    }
-    fun funcionOnresume(){
         if (!BeaconScanPermissionsActivity.allPermissionsGranted(this,
                 true)) {
             val intent = Intent(this, BeaconScanPermissionsActivity::class.java)
@@ -81,10 +78,27 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         else {
-            if (BeaconManager.getInstanceForApplication(this).monitoredRegions.size == 0) {
-                (application as BeaconReferenceApplication).setupBeaconScanning()
-            }
+            mainActivityViewModel.consultaBase().observe(this, Observer { listMacs ->
+                if (!listMacs.isEmpty()) {
+                    if (BeaconManager.getInstanceForApplication(this).monitoredRegions.size == 0) {
+                        (application as BeaconReferenceApplication).setupBeaconScanning()
+                    }
+                }
+            })
         }
+    }
+
+    /*override fun onResume() {
+        Log.d(TAG, "onResume")
+        super.onResume()
+        mainActivityViewModel.consultaBase().observe(this, Observer { listMacs->
+            if(!listMacs.isEmpty()){
+                funcionOnresume()
+            }
+        })
+    }*/
+    fun funcionOnresume(){
+
     }
     companion object {
         val TAG = "MainActivity"
@@ -96,6 +110,27 @@ class MainActivity : AppCompatActivity() {
     fun irSincronizarPersona(view: View?) {
         val intent = Intent(this, sincronizarPulsera::class.java)
         startActivity(intent)
+    }
+    fun enviarAlerta(view: View?) {
+
+        val intentpasos2 = Intent(this, UbicacionServiceM::class.java)
+        stopService(intentpasos2)
+        mainActivityViewModel.consultaBase().observe(this, Observer { listMacs->
+            if(!listMacs.isEmpty()){
+                mainActivityViewModel.enviarAlerta(listMacs[0].idPersona,this)
+                this@MainActivity.startService( intentpasos2 );
+
+            }
+
+        })
+        mensaje()
+
+    }
+    private fun mensaje() {
+        var msj =mainActivityViewModel.mensaje()
+        if(msj!=""){
+            toast(msj)
+        }
     }
 
 }

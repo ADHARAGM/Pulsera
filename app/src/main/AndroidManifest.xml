@@ -34,6 +34,16 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+        <service
+            android:name=".herramientas.servicesLocation.UbicacionServiceM"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".herramientas.servicesLocation.UbicacionServiceA"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
         <receiver android:name=".herramientas.BootBroadcast"
             android:enabled="true"
             android:exported="true">

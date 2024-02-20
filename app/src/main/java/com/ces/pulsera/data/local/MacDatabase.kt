@@ -9,6 +9,7 @@ import com.ces.pulsera.data.pojo.ResponseMac
 @Database(entities = [ResponseMac::class], version = 1)
 abstract class MacDatabase: RoomDatabase() {
     abstract  fun listMacDao(): ListMacDao
+    //abstract  fun listAlertaDao(): ListAlertaDao
     companion object{
         @Volatile
         var INSTANCE:MacDatabase?=null

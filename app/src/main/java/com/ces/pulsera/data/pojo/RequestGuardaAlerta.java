@@ -9,7 +9,15 @@ public class RequestGuardaAlerta {
         this.latitud = latitud;
         this.longitud = longitud;
     }
-
+    public RequestGuardaAlerta(String id_persona, Double latitud, Double longitud,Character tipo) {
+        this.id_persona = id_persona;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.tipo=tipo;
+    }
+    @SerializedName("tipo")
+    @Expose
+    private Character tipo;
     @SerializedName("id_persona")
     @Expose
     private String id_persona;
@@ -19,7 +27,12 @@ public class RequestGuardaAlerta {
     @SerializedName("longitud")
     @Expose
     private Double longitud;
-
+    public Character getTipo() {
+        return tipo;
+    }
+    public void setTipo(Character tipo) {
+        this.tipo = tipo;
+    }
     public String getId_persona() {
         return id_persona;
     }

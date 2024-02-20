@@ -16,4 +16,6 @@ interface ListMacDao {
 
    @Query("SELECT * FROM macInformation")
    fun getMac():LiveData<List<ResponseMac>>
+
+
 }

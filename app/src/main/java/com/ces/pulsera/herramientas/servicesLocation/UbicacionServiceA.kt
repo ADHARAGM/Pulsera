@@ -24,10 +24,9 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import kotlin.coroutines.CoroutineContext
 
-class UbicacionServiceM () : Service() , CoroutineScope {
+class UbicacionServiceA () : Service() , CoroutineScope {
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private val location: com.ces.pulsera.herramientas.Location =
         com.ces.pulsera.herramientas.Location()
@@ -36,7 +35,6 @@ class UbicacionServiceM () : Service() , CoroutineScope {
     var latitud: Double? =null
     var longuitud: Double? =null
     var id_persona:String=""
-
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
@@ -54,22 +52,21 @@ class UbicacionServiceM () : Service() , CoroutineScope {
         }
     }
     override fun onStartCommand(intencion: Intent?, flags: Int, idArranque: Int): Int {
-
         //envia si sigue activo cada hora
         Handler().apply {
             val runnable= object :Runnable{
                 override fun run() {
                     obtenerId();                        //3,600,000 60m
-                    postDelayed(this,60000) //60000 1m
+                    postDelayed(this,10000) //60000 1m
                 }
             }
-            postDelayed(runnable,60000)
+            postDelayed(runnable,50000)
         }
         return START_STICKY;//siempre se vuelva a generar el servicio aunque el sistema mate el servicio
     }
     override fun onDestroy() {
         super.onDestroy()
-       // fusedLocationProviderClient?.removeLocationUpdates( locationCallback );
+        // fusedLocationProviderClient?.removeLocationUpdates( locationCallback );
     }
     override fun onBind(intent: Intent?): IBinder? {
         return null;
@@ -95,13 +92,47 @@ class UbicacionServiceM () : Service() , CoroutineScope {
             ) {
                 if (response.body() != null) {
                     val resultado: GetStatusDispositivoResponse = response.body()!!
-                   // toast()
+                    // toast()
                     val estado: Int= Integer.parseInt(resultado.getStatus().toString())
                     if(estado==1){
-                        sendData("S")
-
-                    }else if(estado==2){
-                        sendData("A")
+                        launch  {
+                            var latitude : Double?=null
+                            var longitude : Double?= null
+                            launch  {
+                                val result: Location? = location.getUserLocation(this@UbicacionServiceA)
+                                if (result != null) {
+                                    latitude = result.latitude
+                                    longitude = result.longitude
+                                    if(latitude!=null && longitude!=null) {
+                                        RetrofitInstance.api.PostUbicacion(
+                                            RequestGuardaAlerta(
+                                                id_persona,
+                                                latitude,
+                                                longitude,
+                                                'A'
+                                            )
+                                        ).enqueue(object : Callback<PostUbicationResponse> {
+                                            override fun onResponse(
+                                                call: Call<PostUbicationResponse>,
+                                                response: Response<PostUbicationResponse>
+                                            ) {
+                                                if (response.body() != null) {
+                                                    val resultado: PostUbicationResponse = response.body()!!
+                                                    toast (resultado.mensaje.toString())
+                                                } else {
+                                                    toast("error recibir Minuto")
+                                                }
+                                            }
+                                            override fun onFailure(call: Call<PostUbicationResponse>, t: Throwable) {
+                                                toast("error conexion Minuto")
+                                            }
+                                        })
+                                    }
+                                }else{
+                                    toast("error ubicacion Minuto")
+                                }
+                            }
+                        }
                     }
                     //toast("bien")
 
@@ -114,45 +145,5 @@ class UbicacionServiceM () : Service() , CoroutineScope {
                 toast("error conexion $t")
             }
         })
-    }
-    private fun sendData(tipo:String){
-        launch  {
-            var latitude : Double?=null
-            var longitude : Double?= null
-            launch  {
-                val result: Location? = location.getUserLocation(this@UbicacionServiceM)
-                if (result != null) {
-                    latitude = result.latitude
-                    longitude = result.longitude
-                    if(latitude!=null && longitude!=null) {
-                        RetrofitInstance.api.PostUbicacion(
-                            RequestGuardaAlerta(
-                                id_persona,
-                                latitude,
-                                longitude,
-                                tipo.single()
-                            )
-                        ).enqueue(object : Callback<PostUbicationResponse> {
-                            override fun onResponse(
-                                call: Call<PostUbicationResponse>,
-                                response: Response<PostUbicationResponse>
-                            ) {
-                                if (response.body() != null) {
-                                    val resultado: PostUbicationResponse = response.body()!!
-                                    toast (resultado.mensaje.toString())
-                                } else {
-                                    toast("error recibir Minuto")
-                                }
-                            }
-                            override fun onFailure(call: Call<PostUbicationResponse>, t: Throwable) {
-                                toast("error conexion Minuto")
-                            }
-                        })
-                    }
-                }else{
-                    toast("error ubicacion Minuto")
-                }
-            }
-        }
     }
 }

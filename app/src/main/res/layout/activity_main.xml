@@ -49,6 +49,7 @@
             android:layout_weight="1"
             android:drawableRight="@drawable/crisis_alert"
             android:text="Alerta"
+            android:onClick="enviarAlerta"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sincronizar_btn"
             app:layout_constraintStart_toStartOf="parent"

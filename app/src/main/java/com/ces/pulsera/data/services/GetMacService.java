@@ -1,6 +1,8 @@
 package com.ces.pulsera.data.services;
 
+import com.ces.pulsera.data.pojo.GetStatusDispositivoResponse;
 import com.ces.pulsera.data.pojo.MacResponse;
+import com.ces.pulsera.data.pojo.PostUbicationResponse;
 import com.ces.pulsera.data.pojo.RequestGuardaAlerta;
 
 import retrofit2.Call;
@@ -16,8 +18,11 @@ public interface GetMacService {
     Call<MacResponse> getMacService( @Path("mac") String mac);
     @POST("api/PostAlerta")
     Call<MacResponse> setMacService(@Body RequestGuardaAlerta requestGuardaAlerta );
-    @POST("api/requestLocation/{id_persona}")
-    Call<MacResponse> requestLocation(@Path("id_persona") String id_persona);
+    //https://servicios.cesmorelos.gob.mx/Pulseras/api/GetStatusDispositivo/
+    @GET ("api/GetStatusDispositivo/{id_persona}")
+    Call<GetStatusDispositivoResponse> requestLocation(@Path("id_persona") String id_persona);
+    @POST("api/PostUbicacion")
+    Call<PostUbicationResponse> PostUbicacion(@Body RequestGuardaAlerta requestGuardaAlerta );
     /*@POST("/api/guardaAlerta")
     Call<ResponseVehiculo> getVehiculo(@Body RequestVehiculo requestVehiculo);
     @GET("movie/popular")

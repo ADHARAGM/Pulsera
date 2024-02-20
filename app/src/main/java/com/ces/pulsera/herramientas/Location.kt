@@ -1,20 +1,13 @@
 package com.ces.pulsera.herramientas
 
 import android.annotation.SuppressLint
-import android.app.Service
 import android.content.Context
-import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
-import android.os.IBinder
-import android.util.Log
+import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceM
 import com.google.android.gms.location.LocationServices
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.CoroutineContext
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -22,7 +15,7 @@ class Location()  {
 
 
     @SuppressLint("MissingPermission")
-    suspend fun getUserLocation(context:Context): Location?{
+    suspend fun getUserLocation(context: Context): Location?{
         val fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(context)
         val isUserLocationPermissionsGranted =true
         val locationManager:LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager

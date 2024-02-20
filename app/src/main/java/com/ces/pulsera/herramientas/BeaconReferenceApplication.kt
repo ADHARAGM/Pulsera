@@ -10,14 +10,16 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.ces.pulsera.R
 import com.ces.pulsera.data.local.MacDatabase
 import com.ces.pulsera.data.pojo.MacResponse
 import com.ces.pulsera.data.pojo.RequestGuardaAlerta
 import com.ces.pulsera.data.services.RetrofitInstance
+import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceA
+import com.ces.pulsera.herramientas.servicesLocation.UbicacionServiceM
 import com.ces.pulsera.vista.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,10 +36,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.coroutines.CoroutineContext
 
-class BeaconReferenceApplication(): Application(), CoroutineScope {
+class BeaconReferenceApplication() : Application(), CoroutineScope {
     var mac:String=""
     var id_persona:String=""
-
     private val location: com.ces.pulsera.herramientas.Location = Location()
     private var job: Job = Job()
     override val coroutineContext: CoroutineContext
@@ -215,9 +216,13 @@ class BeaconReferenceApplication(): Application(), CoroutineScope {
                             if (response.body() != null) {
                                 val resultado: MacResponse = response.body()!!
                                 sendNotification(resultado.mensaje)
-
+                                val intentpasos2 = Intent(this@BeaconReferenceApplication, UbicacionServiceM::class.java)
+                                stopService(intentpasos2)
+                                intentpasos2.putExtra("tipo", "A")
+                                this@BeaconReferenceApplication.startService( intentpasos2 );
                             } else {
                                 sendNotificationError()
+
                             }
                         }
 
@@ -303,14 +308,8 @@ class BeaconReferenceApplication(): Application(), CoroutineScope {
         fun getInstance(): BeaconReferenceApplication{
             return instance;
         }
-
-
     }
 
 
-
-}
-
-private fun <T> LiveData<T>.observe(beaconReferenceApplication: BeaconReferenceApplication, observer: Observer<T>) {
 
 }
